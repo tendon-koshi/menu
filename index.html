@@ -6,34 +6,40 @@
 <title>海老天丼 こし | Menu</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
-body{background:#1a1a1a;font-family:'Hiragino Mincho ProN','Yu Mincho',Georgia,serif;height:100vh;overflow:hidden;}
-.header{background:#EDE3CC;padding:12px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:2px solid #D4B896;}
-.logo{font-size:1rem;letter-spacing:.1em;color:#2C1A0E;line-height:1.3;}
-.logo span{display:block;font-size:.6rem;color:#9C7A4A;letter-spacing:.15em;}
+body{background:#1a1a1a;font-family:'Hiragino Mincho ProN','Yu Mincho',Georgia,serif;height:100vh;height:100dvh;overflow:hidden;}
+
+/* HEADER - コンパクトに */
+.header{background:#EDE3CC;padding:8px 12px;display:flex;align-items:center;justify-content:space-between;border-bottom:2px solid #D4B896;}
+.logo{font-size:1.1rem;font-weight:900;letter-spacing:.08em;color:#2C1A0E;line-height:1.2;}
+.logo span{display:block;font-size:.62rem;font-weight:700;color:#6B4C2A;letter-spacing:.18em;margin-top:1px;}
 .lang-sw{display:flex;gap:4px;}
-.lb{padding:5px 10px;border:1.5px solid #D4B896;background:#FDFAF4;color:#6B4C2A;border-radius:16px;font-size:.7rem;cursor:pointer;font-family:inherit;}
+.lb{padding:6px 11px;border:2px solid #6B4C2A;background:#FDFAF4;color:#2C1A0E;border-radius:16px;font-size:.75rem;font-weight:800;cursor:pointer;font-family:inherit;}
 .lb.active{background:#C0392B;color:#fff;border-color:#C0392B;}
-.page-bar{background:#2C1A0E;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;}
-.page-info{color:#D4B896;font-size:.75rem;}
+
+/* PAGE BAR - 細く */
+.page-bar{background:#2C1A0E;padding:5px 12px;display:flex;align-items:center;justify-content:space-between;}
+.page-info{color:#D4B896;font-size:.72rem;font-weight:bold;}
 .dots{display:flex;gap:5px;align-items:center;}
 .dot{width:6px;height:6px;border-radius:50%;background:#6B4C2A;cursor:pointer;}
 .dot.active{background:#C0392B;width:8px;height:8px;}
-.viewer{position:relative;height:calc(100vh - 88px);overflow:hidden;background:#1a1a1a;}
+
+/* VIEWER */
+.viewer{position:relative;height:calc(100dvh - 72px);overflow:hidden;background:#1a1a1a;}
 .track{display:flex;height:100%;transition:transform .35s cubic-bezier(.4,0,.2,1);}
-.slide{flex-shrink:0;width:100vw;height:100%;display:flex;align-items:center;justify-content:center;padding:8px;overflow:hidden;}
+.slide{flex-shrink:0;width:100vw;height:100%;display:flex;align-items:center;justify-content:center;padding:6px;}
 .slide-inner{transform-origin:center center;transition:transform .2s;display:flex;align-items:center;justify-content:center;}
 .slide canvas{border-radius:4px;box-shadow:0 4px 20px rgba(0,0,0,.6);display:block;}
 .msg{color:#9C7A4A;font-size:.85rem;text-align:center;padding:20px;}
-.nav{position:absolute;top:50%;transform:translateY(-50%);background:rgba(44,26,14,.75);color:#EDE3CC;border:none;font-size:1.6rem;width:38px;height:60px;border-radius:4px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:10;}
+.nav{position:absolute;top:50%;transform:translateY(-50%);background:rgba(44,26,14,.8);color:#EDE3CC;border:none;font-size:1.6rem;width:36px;height:56px;border-radius:4px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:10;}
 .nav:disabled{opacity:.15;cursor:default;}
-.nav-l{left:4px;}
-.nav-r{right:4px;}
+.nav-l{left:2px;}
+.nav-r{right:2px;}
 
-/* Zoom buttons */
-.zoom-btns{position:absolute;bottom:16px;right:12px;display:flex;flex-direction:column;gap:6px;z-index:20;}
-.zb{width:44px;height:44px;border-radius:50%;border:none;background:rgba(44,26,14,.85);color:#EDE3CC;font-size:1.4rem;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,.4);}
+/* ZOOM BUTTONS - フローティング */
+.zoom-btns{position:absolute;bottom:20px;right:10px;display:flex;flex-direction:column;gap:8px;z-index:20;}
+.zb{width:48px;height:48px;border-radius:50%;border:2px solid rgba(237,227,204,.3);background:rgba(44,26,14,.88);color:#EDE3CC;font-size:1.5rem;font-weight:bold;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 3px 10px rgba(0,0,0,.5);}
 .zb:active{background:#C0392B;}
-.zoom-level{position:absolute;bottom:16px;left:12px;background:rgba(44,26,14,.7);color:#D4B896;font-size:.7rem;padding:4px 8px;border-radius:12px;z-index:20;}
+.zoom-pct{position:absolute;bottom:20px;left:10px;background:rgba(44,26,14,.75);color:#D4B896;font-size:.72rem;font-weight:bold;padding:5px 9px;border-radius:12px;z-index:20;}
 </style>
 </head>
 <body>
@@ -54,39 +60,33 @@ body{background:#1a1a1a;font-family:'Hiragino Mincho ProN','Yu Mincho',Georgia,s
   <button class="nav nav-l" id="navL" onclick="prev()">&#8249;</button>
   <button class="nav nav-r" id="navR" onclick="next()">&#8250;</button>
   <div class="zoom-btns">
-    <button class="zb" onclick="zoomIn()">＋</button>
-    <button class="zb" onclick="zoomReset()">⊙</button>
-    <button class="zb" onclick="zoomOut()">－</button>
+    <button class="zb" onclick="zoomIn()" title="拡大">＋</button>
+    <button class="zb" onclick="zoomReset()" title="リセット" style="font-size:1rem;">100%</button>
+    <button class="zb" onclick="zoomOut()" title="縮小">－</button>
   </div>
-  <div class="zoom-level" id="zlevel">100%</div>
+  <div class="zoom-pct" id="zpct">100%</div>
 </div>
 
 <script>
 var LANGS={ja:{file:'menu-ja.pdf',pages:8},en:{file:'menu-en.pdf',pages:6},zh:{file:'menu-zh.pdf',pages:6}};
-var cur=0,total=8,pdf=null,rendered={},lang='ja';
-var scale=1.0;
-var isDragging=false,dragStartX=0,dragStartY=0,scrollX=0,scrollY=0;
+var cur=0,total=8,pdf=null,rendered={},lang='ja',scale=1.0;
 
-function getInner(idx){return document.getElementById('inner'+idx);}
+function getInner(i){return document.getElementById('inner'+i);}
 
 function buildUI(n){
   total=n;cur=0;scale=1.0;
-  var t=document.getElementById('track');
-  t.innerHTML='';rendered={};
+  var t=document.getElementById('track');t.innerHTML='';rendered={};
   for(var i=0;i<n;i++){
-    var s=document.createElement('div');
-    s.className='slide';s.id='s'+i;
-    var inner=document.createElement('div');
-    inner.className='slide-inner';inner.id='inner'+i;
-    inner.innerHTML='<div class="msg">読み込み中...</div>';
-    s.appendChild(inner);
-    t.appendChild(s);
+    var s=document.createElement('div');s.className='slide';s.id='s'+i;
+    var inn=document.createElement('div');inn.className='slide-inner';inn.id='inner'+i;
+    inn.innerHTML='<div class="msg">読み込み中...</div>';
+    s.appendChild(inn);t.appendChild(s);
   }
   var d=document.getElementById('dots');d.innerHTML='';
   for(var i=0;i<n;i++){
     var dot=document.createElement('div');
     dot.className='dot'+(i===0?' active':'');
-    (function(idx){dot.onclick=function(){go(idx);};})(i);
+    (function(x){dot.onclick=function(){go(x);};})(i);
     d.appendChild(dot);
   }
   updateUI();
@@ -98,13 +98,11 @@ function updateUI(){
   document.querySelectorAll('.dot').forEach(function(d,i){d.className='dot'+(i===cur?' active':'');});
   document.getElementById('navL').disabled=cur===0;
   document.getElementById('navR').disabled=cur===total-1;
-  document.getElementById('zlevel').textContent=Math.round(scale*100)+'%';
+  document.getElementById('zpct').textContent=Math.round(scale*100)+'%';
 }
 
 function go(n){
-  if(scale!==1.0){zoomReset();setTimeout(function(){_go(n);},220);}else{_go(n);}
-}
-function _go(n){
+  if(scale!==1.0){zoomReset();}
   cur=n;updateUI();
   renderPage(cur);
   if(cur+1<total)renderPage(cur+1);
@@ -114,28 +112,27 @@ function prev(){if(cur>0)go(cur-1);}
 function next(){if(cur<total-1)go(cur+1);}
 
 function applyZoom(){
-  var inner=getInner(cur);
-  if(inner){inner.style.transform='scale('+scale+')';}
-  document.getElementById('zlevel').textContent=Math.round(scale*100)+'%';
+  var inn=getInner(cur);
+  if(inn)inn.style.transform='scale('+scale+')';
+  document.getElementById('zpct').textContent=Math.round(scale*100)+'%';
 }
-function zoomIn(){scale=Math.min(scale+0.25,3.0);applyZoom();}
+function zoomIn(){scale=Math.min(scale+0.25,4.0);applyZoom();}
 function zoomOut(){scale=Math.max(scale-0.25,0.5);applyZoom();}
 function zoomReset(){
   scale=1.0;
-  var inner=getInner(cur);
-  if(inner){inner.style.transform='scale(1)';}
-  document.getElementById('zlevel').textContent='100%';
+  var inn=getInner(cur);
+  if(inn)inn.style.transform='scale(1)';
+  document.getElementById('zpct').textContent='100%';
 }
 
 function renderPage(idx){
   if(!pdf||rendered[idx])return;
   rendered[idx]=true;
   pdf.getPage(idx+1).then(function(page){
-    var sl=document.getElementById('s'+idx);
-    var inner=document.getElementById('inner'+idx);
-    if(!sl||!inner)return;
-    var vw=document.getElementById('viewer').clientWidth-16;
-    var vh=document.getElementById('viewer').clientHeight-16;
+    var inn=document.getElementById('inner'+idx);
+    if(!inn)return;
+    var vw=document.getElementById('viewer').clientWidth-12;
+    var vh=document.getElementById('viewer').clientHeight-12;
     var vp=page.getViewport({scale:1});
     var sc=Math.min(vw/vp.width,vh/vp.height)*window.devicePixelRatio;
     var svp=page.getViewport({scale:sc});
@@ -144,20 +141,19 @@ function renderPage(idx){
     canvas.style.width=(svp.width/window.devicePixelRatio)+'px';
     canvas.style.height=(svp.height/window.devicePixelRatio)+'px';
     page.render({canvasContext:canvas.getContext('2d'),viewport:svp}).promise.then(function(){
-      inner.innerHTML='';inner.appendChild(canvas);
+      inn.innerHTML='';inn.appendChild(canvas);
     });
   }).catch(function(){
-    var inner=document.getElementById('inner'+idx);
-    if(inner)inner.innerHTML='<div class="msg" style="color:#C0392B">読み込みエラー</div>';
+    var inn=document.getElementById('inner'+idx);
+    if(inn)inn.innerHTML='<div class="msg" style="color:#C0392B">読み込みエラー</div>';
   });
 }
 
 function loadPDF(l){
   lang=l;pdf=null;rendered={};scale=1.0;
-  var info=LANGS[l];
-  buildUI(info.pages);
-  pdfjsLib.getDocument({url:info.file,withCredentials:false}).promise.then(function(doc){
-    pdf=doc;renderPage(0);if(info.pages>1)renderPage(1);
+  buildUI(LANGS[l].pages);
+  pdfjsLib.getDocument({url:LANGS[l].file,withCredentials:false}).promise.then(function(doc){
+    pdf=doc;renderPage(0);if(LANGS[l].pages>1)renderPage(1);
   }).catch(function(e){
     document.getElementById('inner0').innerHTML='<div class="msg" style="color:#C0392B">PDFエラー: '+e.message+'</div>';
   });
@@ -171,7 +167,6 @@ function setLang(l){
   loadPDF(l);
 }
 
-// Swipe (only when not zoomed)
 var sx=0,sy=0;
 var v=document.getElementById('viewer');
 v.addEventListener('touchstart',function(e){sx=e.touches[0].clientX;sy=e.touches[0].clientY;},{passive:true});
@@ -179,8 +174,9 @@ v.addEventListener('touchend',function(e){
   if(scale>1.0)return;
   var dx=sx-e.changedTouches[0].clientX;
   var dy=Math.abs(sy-e.changedTouches[0].clientY);
-  if(Math.abs(dx)>40&&dy<60){if(dx>0)next();else prev();}
+  if(Math.abs(dx)>40&&dy<80){if(dx>0)next();else prev();}
 },{passive:true});
+
 document.addEventListener('keydown',function(e){
   if(e.key==='ArrowRight')next();
   if(e.key==='ArrowLeft')prev();
