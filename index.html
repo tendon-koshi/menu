@@ -6,33 +6,15 @@
 <title>海老天丼 こし | Menu</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
-body{background:#1a1a1a;font-family:'Hiragino Mincho ProN','Yu Mincho',Georgia,serif;height:100vh;height:100dvh;overflow:hidden;}
-.header{background:#EDE3CC;padding:8px 12px;display:flex;align-items:center;justify-content:space-between;border-bottom:2px solid #D4B896;}
+body{background:#1a1a1a;font-family:'Hiragino Mincho ProN','Yu Mincho',Georgia,serif;height:100vh;height:100dvh;overflow:hidden;display:flex;flex-direction:column;}
+.header{background:#EDE3CC;padding:8px 12px;display:flex;align-items:center;justify-content:space-between;border-bottom:2px solid #D4B896;flex-shrink:0;}
 .logo{font-size:1.1rem;font-weight:900;letter-spacing:.08em;color:#2C1A0E;line-height:1.2;}
 .logo span{display:block;font-size:.62rem;font-weight:700;color:#6B4C2A;letter-spacing:.18em;margin-top:1px;}
 .lang-sw{display:flex;gap:4px;}
 .lb{padding:6px 11px;border:2px solid #6B4C2A;background:#FDFAF4;color:#2C1A0E;border-radius:16px;font-size:.75rem;font-weight:800;cursor:pointer;font-family:inherit;}
 .lb.active{background:#C0392B;color:#fff;border-color:#C0392B;}
-.page-bar{background:#2C1A0E;padding:5px 12px;display:flex;align-items:center;justify-content:space-between;}
-.page-info{color:#D4B896;font-size:.72rem;font-weight:bold;}
-.dots{display:flex;gap:5px;align-items:center;}
-.dot{width:6px;height:6px;border-radius:50%;background:#6B4C2A;cursor:pointer;}
-.dot.active{background:#C0392B;width:8px;height:8px;}
-.viewer{position:relative;height:calc(100dvh - 72px);overflow:hidden;background:#1a1a1a;}
-.track{display:flex;height:100%;transition:transform .35s cubic-bezier(.4,0,.2,1);}
-.slide{flex-shrink:0;width:100vw;height:100%;overflow:hidden;position:relative;}
-.slide-inner{position:absolute;top:0;left:0;width:100%;height:100%;display:flex;align-items:center;justify-content:center;transform-origin:center center;cursor:grab;}
-.slide-inner.dragging{cursor:grabbing;}
-.slide canvas{border-radius:4px;box-shadow:0 4px 20px rgba(0,0,0,.6);display:block;pointer-events:none;}
-.msg{color:#9C7A4A;font-size:.85rem;text-align:center;padding:20px;}
-.nav{position:absolute;top:50%;transform:translateY(-50%);background:rgba(44,26,14,.8);color:#EDE3CC;border:none;font-size:1.6rem;width:36px;height:56px;border-radius:4px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:10;transition:opacity .2s;}
-.nav:disabled{opacity:.1;pointer-events:none;}
-.nav-l{left:2px;}
-.nav-r{right:2px;}
-.zoom-btns{position:absolute;bottom:20px;right:10px;display:flex;flex-direction:column;gap:8px;z-index:20;}
-.zb{width:48px;height:48px;border-radius:50%;border:2px solid rgba(237,227,204,.3);background:rgba(44,26,14,.88);color:#EDE3CC;font-size:1.5rem;font-weight:bold;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 3px 10px rgba(0,0,0,.5);-webkit-tap-highlight-color:transparent;}
-.zb:active{background:#C0392B;}
-.zoom-pct{position:absolute;bottom:20px;left:10px;background:rgba(44,26,14,.75);color:#D4B896;font-size:.72rem;font-weight:bold;padding:5px 9px;border-radius:12px;z-index:20;}
+.viewer{flex:1;position:relative;overflow:hidden;}
+iframe{width:100%;height:100%;border:none;display:block;}
 </style>
 </head>
 <body>
@@ -44,224 +26,18 @@ body{background:#1a1a1a;font-family:'Hiragino Mincho ProN','Yu Mincho',Georgia,s
     <button class="lb" onclick="setLang('zh')">中文</button>
   </div>
 </div>
-<div class="page-bar">
-  <div class="page-info" id="pinfo">1 / 8</div>
-  <div class="dots" id="dots"></div>
+<div class="viewer">
+  <iframe id="pdfframe" src="menu-ja.pdf"></iframe>
 </div>
-<div class="viewer" id="viewer">
-  <div class="track" id="track"></div>
-  <button class="nav nav-l" id="navL" onclick="prev()">&#8249;</button>
-  <button class="nav nav-r" id="navR" onclick="next()">&#8250;</button>
-  <div class="zoom-btns">
-    <button class="zb" onclick="zoomIn()">＋</button>
-    <button class="zb" onclick="zoomReset()" style="font-size:.85rem;">Reset</button>
-    <button class="zb" onclick="zoomOut()">－</button>
-  </div>
-  <div class="zoom-pct" id="zpct">100%</div>
-</div>
-
 <script>
-var LANGS={ja:{file:'menu-ja.pdf',pages:8},en:{file:'menu-en.pdf',pages:6},zh:{file:'menu-zh.pdf',pages:6}};
-var cur=0,total=8,pdf=null,rendered={},lang='ja';
-var scale=1.0;
-var transX=0,transY=0;
-
-function getInner(i){return document.getElementById('inner'+i);}
-
-function applyTransform(inner){
-  if(!inner)return;
-  inner.style.transform='translate('+transX+'px,'+transY+'px) scale('+scale+')';
-}
-
-function clampTranslate(){
-  if(!getInner(cur))return;
-  var vw=document.getElementById('viewer').clientWidth;
-  var vh=document.getElementById('viewer').clientHeight;
-  var maxX=Math.max(0,(vw*(scale-1))/2);
-  var maxY=Math.max(0,(vh*(scale-1))/2);
-  transX=Math.max(-maxX,Math.min(maxX,transX));
-  transY=Math.max(-maxY,Math.min(maxY,transY));
-}
-
-function buildUI(n){
-  total=n;cur=0;scale=1.0;transX=0;transY=0;
-  var t=document.getElementById('track');t.innerHTML='';rendered={};
-  for(var i=0;i<n;i++){
-    var s=document.createElement('div');s.className='slide';s.id='s'+i;
-    var inn=document.createElement('div');inn.className='slide-inner';inn.id='inner'+i;
-    inn.innerHTML='<div class="msg">読み込み中...</div>';
-    s.appendChild(inn);t.appendChild(s);
-    setupDrag(inn,i);
-  }
-  var d=document.getElementById('dots');d.innerHTML='';
-  for(var i=0;i<n;i++){
-    var dot=document.createElement('div');
-    dot.className='dot'+(i===0?' active':'');
-    (function(x){dot.onclick=function(){go(x);};})(i);
-    d.appendChild(dot);
-  }
-  updateUI();
-}
-
-function setupDrag(inn, idx){
-  var isDrag=false,startX=0,startY=0,startTX=0,startTY=0;
-
-  // Mouse drag
-  inn.addEventListener('mousedown',function(e){
-    if(scale<=1.0)return;
-    isDrag=true;startX=e.clientX;startY=e.clientY;startTX=transX;startTY=transY;
-    inn.classList.add('dragging');e.preventDefault();
-  });
-  window.addEventListener('mousemove',function(e){
-    if(!isDrag||cur!==idx)return;
-    transX=startTX+(e.clientX-startX);transY=startTY+(e.clientY-startY);
-    clampTranslate();applyTransform(inn);
-  });
-  window.addEventListener('mouseup',function(){isDrag=false;inn.classList.remove('dragging');});
-
-  // Touch drag
-  var tStartX=0,tStartY=0,tStartTX=0,tStartTY=0,tMoved=false;
-  inn.addEventListener('touchstart',function(e){
-    if(e.touches.length!==1)return;
-    tStartX=e.touches[0].clientX;tStartY=e.touches[0].clientY;
-    tStartTX=transX;tStartTY=transY;tMoved=false;
-  },{passive:true});
-  inn.addEventListener('touchmove',function(e){
-    if(cur!==idx||e.touches.length!==1)return;
-    var dx=e.touches[0].clientX-tStartX;
-    var dy=e.touches[0].clientY-tStartY;
-    if(scale>1.0){
-      tMoved=true;
-      transX=tStartTX+dx;transY=tStartTY+dy;
-      clampTranslate();applyTransform(inn);
-      e.preventDefault();
-    }
-  },{passive:false});
-  inn.addEventListener('touchend',function(e){
-    if(scale<=1.0&&!tMoved&&cur===idx){
-      var dx=e.changedTouches[0].clientX-tStartX;
-      var dy=Math.abs(e.changedTouches[0].clientY-tStartY);
-      if(Math.abs(dx)>40&&dy<80){if(dx<0)next();else prev();}
-    }
-  },{passive:true});
-}
-
-function updateUI(){
-  document.getElementById('pinfo').textContent=(cur+1)+' / '+total;
-  document.getElementById('track').style.transform='translateX(-'+(cur*100)+'vw)';
-  document.querySelectorAll('.dot').forEach(function(d,i){d.className='dot'+(i===cur?' active':'');});
-  document.getElementById('navL').disabled=cur===0;
-  document.getElementById('navR').disabled=cur===total-1;
-  document.getElementById('zpct').textContent=Math.round(scale*100)+'%';
-  // nav visibility
-  document.getElementById('navL').style.opacity=scale>1.0?'0':'';
-  document.getElementById('navR').style.opacity=scale>1.0?'0':'';
-}
-
-function go(n){
-  zoomReset();
-  cur=n;updateUI();
-  renderPage(cur);
-  if(cur+1<total)renderPage(cur+1);
-  if(cur-1>=0)renderPage(cur-1);
-}
-function prev(){if(cur>0)go(cur-1);}
-function next(){if(cur<total-1)go(cur+1);}
-
-function zoomIn(){
-  scale=Math.min(scale+0.5,5.0);
-  clampTranslate();
-  applyTransform(getInner(cur));
-  updateUI();
-}
-function zoomOut(){
-  scale=Math.max(scale-0.5,1.0);
-  if(scale===1.0){transX=0;transY=0;}
-  clampTranslate();
-  applyTransform(getInner(cur));
-  updateUI();
-}
-function zoomReset(){
-  scale=1.0;transX=0;transY=0;
-  var inn=getInner(cur);
-  if(inn)inn.style.transform='translate(0,0) scale(1)';
-  updateUI();
-}
-
-function renderPage(idx){
-  if(!pdf||rendered[idx])return;
-  rendered[idx]=true;
-  pdf.getPage(idx+1).then(function(page){
-    var inn=document.getElementById('inner'+idx);
-    if(!inn)return;
-    var sl=document.getElementById('s'+idx);
-    var vw=sl.clientWidth;
-    var vh=sl.clientHeight;
-    var vp=page.getViewport({scale:1});
-    var sc=Math.min(vw/vp.width,vh/vp.height)*Math.min(window.devicePixelRatio,2);
-    var svp=page.getViewport({scale:sc});
-    var canvas=document.createElement('canvas');
-    canvas.width=svp.width;canvas.height=svp.height;
-    canvas.style.width=(svp.width/Math.min(window.devicePixelRatio,2))+'px';
-    canvas.style.height=(svp.height/Math.min(window.devicePixelRatio,2))+'px';
-    page.render({canvasContext:canvas.getContext('2d'),viewport:svp}).promise.then(function(){
-      inn.innerHTML='';inn.appendChild(canvas);
-    });
-  }).catch(function(){
-    var inn=document.getElementById('inner'+idx);
-    if(inn)inn.innerHTML='<div class="msg" style="color:#C0392B">読み込みエラー</div>';
-  });
-}
-
-function loadPDF(l){
-  lang=l;pdf=null;rendered={};scale=1.0;transX=0;transY=0;
-  buildUI(LANGS[l].pages);
-  pdfjsLib.getDocument({url:LANGS[l].file,withCredentials:false}).promise.then(function(doc){
-    pdf=doc;renderPage(0);if(LANGS[l].pages>1)renderPage(1);
-  }).catch(function(e){
-    document.getElementById('inner0').innerHTML='<div class="msg" style="color:#C0392B">PDFエラー: '+e.message+'</div>';
-  });
-}
-
 function setLang(l){
+  var files={ja:'menu-ja.pdf',en:'menu-en.pdf',zh:'menu-zh.pdf'};
+  document.getElementById('pdfframe').src=files[l];
   document.querySelectorAll('.lb').forEach(function(b,i){
     b.classList.remove('active');
     if((i===0&&l==='ja')||(i===1&&l==='en')||(i===2&&l==='zh'))b.classList.add('active');
   });
-  loadPDF(l);
 }
-
-// Swipe on viewer background (when scale=1)
-var vEl=document.getElementById('viewer');
-var vsx=0,vsy=0;
-vEl.addEventListener('touchstart',function(e){vsx=e.touches[0].clientX;vsy=e.touches[0].clientY;},{passive:true});
-vEl.addEventListener('touchend',function(e){
-  if(scale>1.0)return;
-  var dx=vsx-e.changedTouches[0].clientX;
-  var dy=Math.abs(vsy-e.changedTouches[0].clientY);
-  if(Math.abs(dx)>50&&dy<100){if(dx>0)next();else prev();}
-},{passive:true});
-
-document.addEventListener('keydown',function(e){
-  if(e.key==='ArrowRight'&&scale===1.0)next();
-  if(e.key==='ArrowLeft'&&scale===1.0)prev();
-  if(e.key==='+'||e.key==='=')zoomIn();
-  if(e.key==='-')zoomOut();
-  if(e.key==='0')zoomReset();
-  if(e.key==='ArrowUp'){transY+=80;clampTranslate();applyTransform(getInner(cur));}
-  if(e.key==='ArrowDown'){transY-=80;clampTranslate();applyTransform(getInner(cur));}
-});
-
-var s1=document.createElement('script');
-s1.src='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js';
-s1.onload=function(){
-  pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
-  loadPDF('ja');
-};
-s1.onerror=function(){
-  document.getElementById('inner0').innerHTML='<div class="msg" style="color:#C0392B">ライブラリ読み込みエラー</div>';
-};
-document.head.appendChild(s1);
 </script>
 </body>
 </html>
