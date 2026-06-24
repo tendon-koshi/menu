@@ -6,163 +6,59 @@
 <title>海老天丼 こし | Menu</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
-html,body{height:100%;height:100dvh;overflow:hidden;font-family:'Hiragino Mincho ProN','Yu Mincho',Georgia,serif;}
+html,body{height:100%;height:100dvh;overflow:hidden;font-family:'Hiragino Mincho ProN','Yu Mincho',Georgia,serif;background:#F5EFE0;}
+body{display:flex;flex-direction:column;align-items:center;justify-content:center;}
 
-/* ===== LANGUAGE SELECT SCREEN ===== */
-#lang-screen{
-  position:fixed;inset:0;
-  background:#F5EFE0;
-  display:flex;flex-direction:column;
-  align-items:center;justify-content:center;
-  z-index:100;
-  gap:0;
-}
-.lang-screen-logo{
-  text-align:center;
-  margin-bottom:48px;
-}
-.lang-screen-logo .name{
-  font-size:2rem;font-weight:900;
-  letter-spacing:.15em;color:#2C1A0E;
+.logo-area{text-align:center;margin-bottom:52px;}
+.logo-name{font-size:2.2rem;font-weight:900;letter-spacing:.15em;color:#2C1A0E;display:block;}
+.logo-sub{font-size:.9rem;font-weight:700;color:#9C7A4A;letter-spacing:.25em;display:block;margin-top:8px;}
+
+.prompt{font-size:.88rem;color:#6B4C2A;text-align:center;line-height:2;margin-bottom:32px;letter-spacing:.03em;}
+
+.btns{display:flex;flex-direction:column;gap:16px;width:280px;}
+
+.lang-btn{
   display:block;
-}
-.lang-screen-logo .sub{
-  font-size:.85rem;font-weight:700;
-  color:#9C7A4A;letter-spacing:.25em;
-  display:block;margin-top:6px;
-}
-.lang-screen-title{
-  font-size:.9rem;color:#6B4C2A;
-  margin-bottom:28px;letter-spacing:.05em;
-  text-align:center;line-height:1.8;
-}
-.lang-btns{display:flex;flex-direction:column;gap:14px;width:260px;}
-.lang-btn-big{
-  padding:18px 0;
+  padding:20px 0;
   border:2.5px solid #C0392B;
-  background:#fff;color:#2C1A0E;
-  border-radius:12px;
-  font-size:1.1rem;font-weight:800;
-  cursor:pointer;font-family:inherit;
-  letter-spacing:.1em;
-  transition:background .15s,color .15s;
+  background:#fff;
+  border-radius:14px;
+  text-decoration:none;
   text-align:center;
+  transition:background .15s,color .15s;
 }
-.lang-btn-big:active,.lang-btn-big:hover{
-  background:#C0392B;color:#fff;
-}
-.lang-btn-big .sub-label{
-  display:block;font-size:.7rem;
-  font-weight:500;color:#9C7A4A;
-  margin-top:3px;letter-spacing:.05em;
-}
-.lang-btn-big:active .sub-label,.lang-btn-big:hover .sub-label{color:#ffdddd;}
-
-/* ===== MENU SCREEN ===== */
-#menu-screen{
-  position:fixed;inset:0;
-  display:none;flex-direction:column;
-  background:#1a1a1a;
-}
-#menu-screen.active{display:flex;}
-
-.header{
-  background:#EDE3CC;
-  padding:8px 12px;
-  display:flex;align-items:center;
-  justify-content:space-between;
-  border-bottom:2px solid #D4B896;
-  flex-shrink:0;
-}
-.back-btn{
-  padding:6px 12px;
-  border:2px solid #C0392B;
-  background:#fff;color:#C0392B;
-  border-radius:10px;
-  font-size:.78rem;font-weight:800;
-  cursor:pointer;font-family:inherit;
-  white-space:nowrap;
-}
-.back-btn:active{background:#C0392B;color:#fff;}
-.logo{
-  font-size:1.1rem;font-weight:900;
-  letter-spacing:.08em;color:#2C1A0E;
-  line-height:1.2;text-align:center;
-  flex:1;
-}
-.logo span{
-  display:block;font-size:.62rem;
-  font-weight:700;color:#6B4C2A;
-  letter-spacing:.18em;margin-top:1px;
-}
-.lang-label{
-  font-size:.78rem;font-weight:800;
-  color:#6B4C2A;white-space:nowrap;
-  padding-left:8px;
-}
-.viewer{flex:1;overflow:hidden;}
-iframe{width:100%;height:100%;border:none;display:block;}
+.lang-btn:active,.lang-btn:hover{background:#C0392B;}
+.lang-btn .main{display:block;font-size:1.15rem;font-weight:900;color:#2C1A0E;letter-spacing:.1em;}
+.lang-btn .sub{display:block;font-size:.72rem;font-weight:500;color:#9C7A4A;margin-top:4px;letter-spacing:.05em;}
+.lang-btn:active .main,.lang-btn:hover .main{color:#fff;}
+.lang-btn:active .sub,.lang-btn:hover .sub{color:#ffdddd;}
 </style>
 </head>
 <body>
-
-<!-- LANGUAGE SELECT -->
-<div id="lang-screen">
-  <div class="lang-screen-logo">
-    <span class="name">海老天丼 こし</span>
-    <span class="sub">TENDON KOSHI</span>
+  <div class="logo-area">
+    <span class="logo-name">海老天丼 こし</span>
+    <span class="logo-sub">TENDON KOSHI</span>
   </div>
-  <div class="lang-screen-title">
+
+  <div class="prompt">
     言語を選択してください<br>
     Please select your language<br>
     请选择语言
   </div>
-  <div class="lang-btns">
-    <button class="lang-btn-big" onclick="openMenu('ja')">
-      日本語
-      <span class="sub-label">Japanese</span>
-    </button>
-    <button class="lang-btn-big" onclick="openMenu('en')">
-      English
-      <span class="sub-label">英語</span>
-    </button>
-    <button class="lang-btn-big" onclick="openMenu('zh')">
-      中文
-      <span class="sub-label">Chinese / 中国語</span>
-    </button>
+
+  <div class="btns">
+    <a class="lang-btn" href="menu-ja.pdf">
+      <span class="main">日本語</span>
+      <span class="sub">Japanese</span>
+    </a>
+    <a class="lang-btn" href="menu-en.pdf">
+      <span class="main">English</span>
+      <span class="sub">英語</span>
+    </a>
+    <a class="lang-btn" href="menu-zh.pdf">
+      <span class="main">中文</span>
+      <span class="sub">Chinese / 中国語</span>
+    </a>
   </div>
-</div>
-
-<!-- MENU VIEWER -->
-<div id="menu-screen">
-  <div class="header">
-    <button class="back-btn" id="back-btn" onclick="goBack()">◀ 戻る</button>
-    <div class="logo">海老天丼 こし<span>TENDON KOSHI</span></div>
-    <div class="lang-label" id="lang-label">日本語</div>
-  </div>
-  <div class="viewer">
-    <iframe id="pdfframe" src=""></iframe>
-  </div>
-</div>
-
-<script>
-var files={ja:'menu-ja.pdf',en:'menu-en.pdf',zh:'menu-zh.pdf'};
-var labels={ja:'日本語',en:'English',zh:'中文'};
-var backLabels={ja:'◀ 戻る',en:'◀ Back',zh:'◀ 返回'};
-
-function openMenu(lang){
-  document.getElementById('pdfframe').src=files[lang];
-  document.getElementById('lang-label').textContent=labels[lang];
-  document.getElementById('back-btn').textContent=backLabels[lang];
-  document.getElementById('lang-screen').style.display='none';
-  document.getElementById('menu-screen').classList.add('active');
-}
-
-function goBack(){
-  document.getElementById('menu-screen').classList.remove('active');
-  document.getElementById('lang-screen').style.display='flex';
-  document.getElementById('pdfframe').src='';
-}
-</script>
 </body>
 </html>
