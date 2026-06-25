@@ -15,6 +15,7 @@ body.light .service-badge{
   border:2px solid #C0392B;color:#C0392B;
   background:rgba(192,57,43,0.06);
   box-shadow:none;text-shadow:none;
+  border-radius:999px;
 }
 body.light .hamburger{border:2px solid #C0392B;color:#C0392B;background:none;}
 body.light .prompt{color:#6B4C2A;}
@@ -41,6 +42,7 @@ body.dark .service-badge{
   background:rgba(57,255,20,0.05);
   box-shadow:0 0 10px rgba(57,255,20,0.25),inset 0 0 10px rgba(57,255,20,0.05);
   text-shadow:0 0 8px rgba(57,255,20,0.7);
+  border-radius:999px;
 }
 body.dark .hamburger{
   border:1.5px solid rgba(57,255,20,0.5);
@@ -79,18 +81,7 @@ body.dark .stars{display:block;}
 .stars{display:none;position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden;}
 .star{position:absolute;background:#fff;border-radius:50%;animation:twinkle 3s infinite;}
 @keyframes twinkle{0%,100%{opacity:.15;}50%{opacity:.7;}}
-.shooting-star{
-  position:absolute;width:130px;height:1.5px;
-  background:linear-gradient(90deg,rgba(57,255,20,1),rgba(200,255,100,0.8),rgba(255,255,200,0));
-  border-radius:999px;
-  animation:shoot 1.2s ease-out forwards;
-  box-shadow:0 0 6px 1px rgba(57,255,20,0.5);
-}
-@keyframes shoot{
-  0%{opacity:0;transform:translate(0,0) rotate(150deg);}
-  10%{opacity:1;}
-  100%{opacity:0;transform:translate(380px,220px) rotate(150deg);}
-}
+
 
 /* ===== LAYOUT ===== */
 body{display:flex;flex-direction:column;overflow:hidden;}
@@ -105,14 +96,13 @@ body{display:flex;flex-direction:column;overflow:hidden;}
 .logo-img{height:32px;width:auto;flex-shrink:0;object-fit:contain;}
 .service-badge{
   flex-shrink:0;
-  padding:4px 10px;border-radius:8px;
-  font-size:.62rem;font-weight:800;
-  letter-spacing:.08em;line-height:1.3;
+  padding:5px 14px;
+  font-size:.7rem;font-weight:800;
+  letter-spacing:.08em;line-height:1;
   text-align:center;transition:all .4s;
   white-space:nowrap;
 }
-.service-badge .s1{display:block;font-size:.68rem;}
-.service-badge .s2{display:block;font-size:.58rem;opacity:.85;}
+
 .spacer{flex:1;}
 .hamburger{
   width:38px;height:38px;border-radius:8px;
@@ -166,11 +156,8 @@ body.light .store-area .store-sub{color:#9C7A4A;}
 
 <!-- HEADER -->
 <div class="header">
-  <img class="logo-img" src="logo-yoko.png" alt="LuminaLink AI">
-  <div class="service-badge">
-    <span class="s1">MultiLang</span>
-    <span class="s2">Menu</span>
-  </div>
+  <img class="logo-img" id="logo-img" src="logo-yoko-white.png" alt="LuminaLink AI">
+  <div class="service-badge">MultiLang Menu</div>
   <div class="spacer"></div>
   <button class="hamburger" onclick="openDrawer()">☰</button>
 </div>
@@ -226,10 +213,11 @@ function toggleMode(){
   isDark=!isDark;
   var toggle=document.getElementById('toggle');
   document.body.className=isDark?'dark':'light';
+  document.getElementById('logo-img').src=isDark?'logo-yoko.png':'logo-yoko-white.png';
   toggle.classList.toggle('on',isDark);
   document.getElementById('mode-icon').textContent=isDark?'🌙':'☀️';
   document.getElementById('mode-label').textContent=isDark?'ダークモード':'ライトモード';
-  if(isDark){buildStars();scheduleShootingStar();}
+  if(isDark){buildStars();}
   else{document.getElementById('stars').innerHTML='';}
 }
 
@@ -241,19 +229,6 @@ function buildStars(){
     s.style.cssText='width:'+sz+'px;height:'+sz+'px;top:'+Math.random()*100+'%;left:'+Math.random()*100+'%;animation-delay:'+Math.random()*3+'s;animation-duration:'+(2+Math.random()*3)+'s;';
     c.appendChild(s);
   }
-}
-function createShootingStar(){
-  if(!isDark)return;
-  var c=document.getElementById('stars');
-  var el=document.createElement('div');el.className='shooting-star';
-  el.style.top=(5+Math.random()*40)+'%';
-  el.style.left=(5+Math.random()*40)+'%';
-  c.appendChild(el);
-  setTimeout(function(){if(el.parentNode)el.parentNode.removeChild(el);},1400);
-}
-function scheduleShootingStar(){
-  if(!isDark)return;
-  setTimeout(function(){createShootingStar();scheduleShootingStar();},(3000+Math.random()*7000));
 }
 </script>
 </body>
