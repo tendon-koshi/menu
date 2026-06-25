@@ -6,46 +6,159 @@
 <title>海老天丼 こし | Menu</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
-html,body{height:100%;height:100dvh;overflow:hidden;font-family:'Hiragino Mincho ProN','Yu Mincho',Georgia,serif;background:#F5EFE0;}
-body{display:flex;flex-direction:column;align-items:center;justify-content:center;}
+html,body{height:100%;height:100dvh;font-family:'Hiragino Mincho ProN','Yu Mincho',Georgia,serif;transition:background .4s,color .4s;}
 
-.logo-area{text-align:center;margin-bottom:52px;}
-.logo-name{font-size:2.2rem;font-weight:900;letter-spacing:.15em;color:#2C1A0E;display:block;}
-.logo-sub{font-size:.9rem;font-weight:700;color:#9C7A4A;letter-spacing:.25em;display:block;margin-top:8px;}
+/* ===== LIGHT MODE ===== */
+body.light{background:#F5EFE0;color:#2C1A0E;}
+body.light .header{background:#EDE3CC;border-bottom:2px solid #D4B896;}
+body.light .logo-name{color:#2C1A0E;}
+body.light .logo-sub{color:#9C7A4A;}
+body.light .hamburger{background:none;color:#2C1A0E;border:2px solid #C0392B;}
+body.light .prompt{color:#6B4C2A;}
+body.light .lang-btn{background:#fff;border-color:#C0392B;}
+body.light .lang-btn .main{color:#2C1A0E;}
+body.light .lang-btn .sub{color:#9C7A4A;}
+body.light .lang-btn:active{background:#C0392B;}
+body.light .lang-btn:active .main{color:#fff;}
+body.light .lang-btn:active .sub{color:#ffdddd;}
+body.light .overlay{background:rgba(0,0,0,0.4);}
+body.light .drawer{background:#EDE3CC;border-left:2px solid #D4B896;}
+body.light .drawer-title{color:#2C1A0E;border-bottom:1px solid #D4B896;}
+body.light .mode-row{color:#2C1A0E;}
+body.light .toggle-track{background:#D4B896;}
+body.light .toggle-track.on{background:#C0392B;}
 
-.prompt{font-size:.88rem;color:#6B4C2A;text-align:center;line-height:2;margin-bottom:32px;letter-spacing:.03em;}
-
-.btns{display:flex;flex-direction:column;gap:16px;width:280px;}
-
-.lang-btn{
-  display:block;
-  padding:20px 0;
-  border:2.5px solid #C0392B;
-  background:#fff;
-  border-radius:14px;
-  text-decoration:none;
-  text-align:center;
-  transition:background .15s,color .15s;
+/* ===== DARK MODE (NEON FUTURE) ===== */
+body.dark{background:linear-gradient(135deg,#020818 0%,#050d20 50%,#040f1a 100%);color:#e0f0ff;}
+body.dark .header{background:rgba(2,8,24,0.85);border-bottom:1px solid rgba(0,200,255,0.25);backdrop-filter:blur(12px);}
+body.dark .logo-name{color:#e0f0ff;text-shadow:0 0 12px rgba(0,200,255,0.6);}
+body.dark .logo-sub{color:rgba(0,200,255,0.7);}
+body.dark .hamburger{background:none;color:#00c8ff;border:1.5px solid rgba(0,200,255,0.5);box-shadow:0 0 8px rgba(0,200,255,0.3);}
+body.dark .prompt{color:rgba(0,200,255,0.8);}
+body.dark .lang-btn{
+  background:rgba(0,200,255,0.04);
+  border:1.5px solid rgba(0,200,255,0.4);
+  box-shadow:0 0 16px rgba(0,200,255,0.12), inset 0 0 20px rgba(0,200,255,0.04);
+  backdrop-filter:blur(8px);
 }
-.lang-btn:active,.lang-btn:hover{background:#C0392B;}
-.lang-btn .main{display:block;font-size:1.15rem;font-weight:900;color:#2C1A0E;letter-spacing:.1em;}
-.lang-btn .sub{display:block;font-size:.72rem;font-weight:500;color:#9C7A4A;margin-top:4px;letter-spacing:.05em;}
-.lang-btn:active .main,.lang-btn:hover .main{color:#fff;}
-.lang-btn:active .sub,.lang-btn:hover .sub{color:#ffdddd;}
+body.dark .lang-btn .main{color:#e0f0ff;text-shadow:0 0 8px rgba(0,200,255,0.5);}
+body.dark .lang-btn .sub{color:rgba(0,200,255,0.6);}
+body.dark .lang-btn:active{
+  background:rgba(0,200,255,0.15);
+  box-shadow:0 0 30px rgba(0,200,255,0.4), inset 0 0 20px rgba(0,200,255,0.1);
+}
+body.dark .overlay{background:rgba(0,0,20,0.7);}
+body.dark .drawer{
+  background:rgba(2,8,24,0.92);
+  border-left:1px solid rgba(0,200,255,0.3);
+  backdrop-filter:blur(16px);
+  box-shadow:-4px 0 30px rgba(0,200,255,0.1);
+}
+body.dark .drawer-title{color:#00c8ff;border-bottom:1px solid rgba(0,200,255,0.2);text-shadow:0 0 8px rgba(0,200,255,0.5);}
+body.dark .mode-row{color:#e0f0ff;}
+body.dark .toggle-track{background:rgba(0,200,255,0.15);border:1px solid rgba(0,200,255,0.3);}
+body.dark .toggle-track.on{background:rgba(0,200,255,0.4);box-shadow:0 0 10px rgba(0,200,255,0.5);}
+body.dark .stars{display:block;}
+
+/* Stars bg for dark */
+.stars{display:none;position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden;}
+.star{position:absolute;background:#fff;border-radius:50%;animation:twinkle 3s infinite;}
+@keyframes twinkle{0%,100%{opacity:.2;}50%{opacity:.8;}}
+
+/* ===== LAYOUT ===== */
+body{display:flex;flex-direction:column;overflow:hidden;}
+
+.header{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:10px 14px;flex-shrink:0;position:relative;z-index:10;
+  transition:background .4s,border-color .4s;
+}
+.logo{text-align:center;flex:1;}
+.logo-name{font-size:1.15rem;font-weight:900;letter-spacing:.1em;display:block;transition:color .4s,text-shadow .4s;}
+.logo-sub{font-size:.6rem;font-weight:700;letter-spacing:.2em;display:block;margin-top:2px;transition:color .4s;}
+.hamburger{
+  width:40px;height:40px;border-radius:8px;
+  font-size:1.2rem;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  transition:all .3s;
+}
+
+.main-content{
+  flex:1;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  position:relative;z-index:1;padding:20px;
+}
+.logo-area{text-align:center;margin-bottom:44px;}
+.logo-area .name{font-size:2.2rem;font-weight:900;letter-spacing:.15em;display:block;transition:all .4s;}
+.logo-area .sub{font-size:.9rem;font-weight:700;letter-spacing:.25em;display:block;margin-top:8px;transition:all .4s;}
+body.light .logo-area .name{color:#2C1A0E;}
+body.light .logo-area .sub{color:#9C7A4A;}
+body.dark .logo-area .name{color:#e0f0ff;text-shadow:0 0 16px rgba(0,200,255,0.7);}
+body.dark .logo-area .sub{color:rgba(0,200,255,0.8);}
+
+.prompt{font-size:.88rem;text-align:center;line-height:2.1;margin-bottom:32px;letter-spacing:.03em;transition:color .4s;}
+.btns{display:flex;flex-direction:column;gap:16px;width:280px;}
+.lang-btn{
+  display:block;padding:20px 0;border-radius:14px;
+  text-decoration:none;text-align:center;
+  transition:all .25s;
+}
+.lang-btn .main{display:block;font-size:1.15rem;font-weight:900;letter-spacing:.1em;transition:all .3s;}
+.lang-btn .sub{display:block;font-size:.72rem;font-weight:500;margin-top:4px;letter-spacing:.05em;transition:all .3s;}
+
+/* ===== DRAWER ===== */
+.overlay{position:fixed;inset:0;z-index:50;opacity:0;pointer-events:none;transition:opacity .3s;}
+.overlay.open{opacity:1;pointer-events:auto;}
+.drawer{
+  position:fixed;top:0;right:-280px;width:260px;height:100%;
+  z-index:51;padding:24px 20px;
+  transition:right .3s cubic-bezier(.4,0,.2,1),background .4s;
+  display:flex;flex-direction:column;gap:0;
+}
+.drawer.open{right:0;}
+.drawer-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;}
+.drawer-title{font-size:1rem;font-weight:900;letter-spacing:.1em;padding-bottom:12px;flex:1;transition:all .4s;}
+.drawer-close{background:none;border:none;font-size:1.4rem;cursor:pointer;color:inherit;padding:0 0 0 8px;}
+.mode-row{display:flex;align-items:center;justify-content:space-between;padding:16px 0;font-size:.9rem;font-weight:700;transition:color .4s;}
+.mode-icon{font-size:1.1rem;margin-right:8px;}
+.toggle-track{
+  width:48px;height:26px;border-radius:13px;
+  cursor:pointer;position:relative;transition:all .3s;
+}
+.toggle-thumb{
+  position:absolute;top:3px;left:3px;width:20px;height:20px;
+  background:#fff;border-radius:50%;transition:left .3s;
+  box-shadow:0 1px 4px rgba(0,0,0,.3);
+}
+.toggle-track.on .toggle-thumb{left:25px;}
 </style>
 </head>
-<body>
-  <div class="logo-area">
+<body class="light">
+
+<!-- Stars (dark mode only) -->
+<div class="stars" id="stars"></div>
+
+<!-- HEADER -->
+<div class="header">
+  <div style="width:40px"></div>
+  <div class="logo">
     <span class="logo-name">海老天丼 こし</span>
     <span class="logo-sub">TENDON KOSHI</span>
   </div>
+  <button class="hamburger" onclick="openDrawer()">☰</button>
+</div>
 
+<!-- MAIN CONTENT -->
+<div class="main-content">
+  <div class="logo-area">
+    <span class="name">海老天丼 こし</span>
+    <span class="sub">TENDON KOSHI</span>
+  </div>
   <div class="prompt">
     言語を選択してください<br>
     Please select your language<br>
     请选择语言
   </div>
-
   <div class="btns">
     <a class="lang-btn" href="menu-ja.pdf">
       <span class="main">日本語</span>
@@ -60,5 +173,69 @@ body{display:flex;flex-direction:column;align-items:center;justify-content:cente
       <span class="sub">Chinese / 中国語</span>
     </a>
   </div>
+</div>
+
+<!-- OVERLAY -->
+<div class="overlay" id="overlay" onclick="closeDrawer()"></div>
+
+<!-- DRAWER -->
+<div class="drawer" id="drawer">
+  <div class="drawer-header">
+    <div class="drawer-title">MENU</div>
+    <button class="drawer-close" onclick="closeDrawer()">✕</button>
+  </div>
+  <div class="mode-row">
+    <span><span class="mode-icon" id="mode-icon">☀️</span><span id="mode-label">ライトモード</span></span>
+    <div class="toggle-track" id="toggle" onclick="toggleMode()">
+      <div class="toggle-thumb"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+var isDark = false;
+
+function openDrawer(){
+  document.getElementById('drawer').classList.add('open');
+  document.getElementById('overlay').classList.add('open');
+}
+function closeDrawer(){
+  document.getElementById('drawer').classList.remove('open');
+  document.getElementById('overlay').classList.remove('open');
+}
+
+function toggleMode(){
+  isDark = !isDark;
+  var body = document.body;
+  var toggle = document.getElementById('toggle');
+  var icon = document.getElementById('mode-icon');
+  var label = document.getElementById('mode-label');
+  if(isDark){
+    body.className = 'dark';
+    toggle.classList.add('on');
+    icon.textContent = '🌙';
+    label.textContent = 'ダークモード';
+    buildStars();
+  } else {
+    body.className = 'light';
+    toggle.classList.remove('on');
+    icon.textContent = '☀️';
+    label.textContent = 'ライトモード';
+    document.getElementById('stars').innerHTML = '';
+  }
+}
+
+function buildStars(){
+  var c = document.getElementById('stars');
+  c.innerHTML = '';
+  for(var i=0;i<80;i++){
+    var s = document.createElement('div');
+    s.className = 'star';
+    var size = Math.random()*2+1;
+    s.style.cssText = 'width:'+size+'px;height:'+size+'px;top:'+Math.random()*100+'%;left:'+Math.random()*100+'%;animation-delay:'+Math.random()*3+'s;animation-duration:'+(2+Math.random()*3)+'s;opacity:'+(0.2+Math.random()*0.6)+';';
+    c.appendChild(s);
+  }
+}
+</script>
 </body>
 </html>
