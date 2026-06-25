@@ -9,8 +9,22 @@
 html,body{height:100%;height:100dvh;font-family:'Hiragino Mincho ProN','Yu Mincho',Georgia,serif;transition:background .4s,color .4s;}
 
 /* ===== LIGHT MODE ===== */
-body.light{background:#F5EFE0;color:#2C1A0E;}
-body.light .header{background:#EDE3CC;border-bottom:2px solid #D4B896;}
+body.light{background:#F5EFE0;color:#1a1a1a;}
+body.light .header{background:#ffffff;border-bottom:1px solid #e0e0e0;}
+body.light .main-content{
+  background:
+    radial-gradient(ellipse at 20% 20%, rgba(192,57,43,0.06) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 80%, rgba(180,140,80,0.08) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 50%, rgba(245,230,200,0.5) 0%, transparent 80%),
+    repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 40px,
+      rgba(192,57,43,0.025) 40px,
+      rgba(192,57,43,0.025) 41px
+    ),
+    linear-gradient(160deg, #fdf6ec 0%, #f5e8d5 40%, #ede0c8 100%);
+}
 body.light .service-badge{
   border:2px solid #C0392B;color:#C0392B;
   background:rgba(192,57,43,0.06);
@@ -27,8 +41,8 @@ body.light .lang-btn:active .main,.lang-btn:active .sub{color:#fff;}
 body.light .store-name{color:#2C1A0E;}
 body.light .store-sub{color:#9C7A4A;}
 body.light .overlay{background:rgba(0,0,0,0.4);}
-body.light .drawer{background:#EDE3CC;border-left:2px solid #D4B896;}
-body.light .drawer-title{color:#2C1A0E;border-bottom:1px solid #D4B896;}
+body.light .drawer{background:#ffffff;border-left:1px solid #e0e0e0;}
+body.light .drawer-title{color:#2C1A0E;border-bottom:1px solid #e0e0e0;}
 body.light .mode-row{color:#2C1A0E;}
 body.light .toggle-track{background:#D4B896;}
 body.light .toggle-track.on{background:#C0392B;}
@@ -120,8 +134,11 @@ body{display:flex;flex-direction:column;overflow:hidden;}
 .store-area{text-align:center;margin-bottom:44px;}
 .store-name{font-size:2rem;font-weight:900;letter-spacing:.15em;display:block;transition:all .4s;}
 .store-sub{font-size:.85rem;font-weight:700;letter-spacing:.25em;display:block;margin-top:6px;transition:all .4s;}
-body.light .store-area .store-name{color:#2C1A0E;}
-body.light .store-area .store-sub{color:#9C7A4A;}
+body.light .store-name{color:#1a1a1a;}
+body.light .store-sub{color:#555555;}
+body.light .prompt{color:#333333;}
+body.light .lang-btn .main{color:#1a1a1a;}
+body.light .lang-btn .sub{color:#555555;}
 
 .prompt{font-size:.85rem;text-align:center;line-height:2.1;margin-bottom:32px;transition:color .4s;}
 .btns{display:flex;flex-direction:column;gap:16px;width:280px;}
