@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>海老天丼 こし | Menu</title>
+<title>MultiLang Menu | LuminaLink AI</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
 html,body{height:100%;height:100dvh;font-family:'Hiragino Mincho ProN','Yu Mincho',Georgia,serif;transition:background .4s,color .4s;}
@@ -11,16 +11,20 @@ html,body{height:100%;height:100dvh;font-family:'Hiragino Mincho ProN','Yu Minch
 /* ===== LIGHT MODE ===== */
 body.light{background:#F5EFE0;color:#2C1A0E;}
 body.light .header{background:#EDE3CC;border-bottom:2px solid #D4B896;}
-body.light .logo-name{color:#2C1A0E;}
-body.light .logo-sub{color:#9C7A4A;}
-body.light .hamburger{background:none;color:#2C1A0E;border:2px solid #C0392B;}
+body.light .service-badge{
+  border:2px solid #C0392B;color:#C0392B;
+  background:rgba(192,57,43,0.06);
+  box-shadow:none;text-shadow:none;
+}
+body.light .hamburger{border:2px solid #C0392B;color:#C0392B;background:none;}
 body.light .prompt{color:#6B4C2A;}
-body.light .lang-btn{background:#fff;border-color:#C0392B;}
+body.light .lang-btn{background:#fff;border:2.5px solid #C0392B;}
 body.light .lang-btn .main{color:#2C1A0E;}
 body.light .lang-btn .sub{color:#9C7A4A;}
 body.light .lang-btn:active{background:#C0392B;}
-body.light .lang-btn:active .main{color:#fff;}
-body.light .lang-btn:active .sub{color:#ffdddd;}
+body.light .lang-btn:active .main,.lang-btn:active .sub{color:#fff;}
+body.light .store-name{color:#2C1A0E;}
+body.light .store-sub{color:#9C7A4A;}
 body.light .overlay{background:rgba(0,0,0,0.4);}
 body.light .drawer{background:#EDE3CC;border-left:2px solid #D4B896;}
 body.light .drawer-title{color:#2C1A0E;border-bottom:1px solid #D4B896;}
@@ -28,131 +32,154 @@ body.light .mode-row{color:#2C1A0E;}
 body.light .toggle-track{background:#D4B896;}
 body.light .toggle-track.on{background:#C0392B;}
 
-/* ===== DARK MODE (NEON FUTURE) ===== */
-body.dark{background:linear-gradient(135deg,#020818 0%,#050d20 50%,#040f1a 100%);color:#e0f0ff;}
-body.dark .header{background:rgba(2,8,24,0.85);border-bottom:1px solid rgba(0,200,255,0.25);backdrop-filter:blur(12px);}
-body.dark .logo-name{color:#e0f0ff;text-shadow:0 0 12px rgba(0,200,255,0.6);}
-body.dark .logo-sub{color:rgba(0,200,255,0.7);}
-body.dark .hamburger{background:none;color:#00c8ff;border:1.5px solid rgba(0,200,255,0.5);box-shadow:0 0 8px rgba(0,200,255,0.3);}
-body.dark .prompt{color:rgba(0,200,255,0.8);}
+/* ===== DARK MODE (NEON GREEN/GOLD) ===== */
+body.dark{background:linear-gradient(135deg,#020a02 0%,#04120a 50%,#030d05 100%);color:#e8ffe0;}
+body.dark .header{background:rgba(2,10,2,0.88);border-bottom:1px solid rgba(57,255,20,0.2);backdrop-filter:blur(12px);}
+body.dark .service-badge{
+  border:1.5px solid rgba(57,255,20,0.6);
+  color:#39FF14;
+  background:rgba(57,255,20,0.05);
+  box-shadow:0 0 10px rgba(57,255,20,0.25),inset 0 0 10px rgba(57,255,20,0.05);
+  text-shadow:0 0 8px rgba(57,255,20,0.7);
+}
+body.dark .hamburger{
+  border:1.5px solid rgba(57,255,20,0.5);
+  color:#39FF14;background:none;
+  box-shadow:0 0 8px rgba(57,255,20,0.2);
+}
+body.dark .prompt{color:rgba(173,255,47,0.8);}
 body.dark .lang-btn{
-  background:rgba(0,200,255,0.04);
-  border:1.5px solid rgba(0,200,255,0.4);
-  box-shadow:0 0 16px rgba(0,200,255,0.12), inset 0 0 20px rgba(0,200,255,0.04);
+  background:rgba(57,255,20,0.04);
+  border:1.5px solid rgba(57,255,20,0.4);
+  box-shadow:0 0 16px rgba(57,255,20,0.1),inset 0 0 20px rgba(57,255,20,0.03);
   backdrop-filter:blur(8px);
 }
-body.dark .lang-btn .main{color:#e0f0ff;text-shadow:0 0 8px rgba(0,200,255,0.5);}
-body.dark .lang-btn .sub{color:rgba(0,200,255,0.6);}
+body.dark .lang-btn .main{color:#e8ffe0;text-shadow:0 0 8px rgba(57,255,20,0.5);}
+body.dark .lang-btn .sub{color:rgba(57,255,20,0.6);}
 body.dark .lang-btn:active{
-  background:rgba(0,200,255,0.15);
-  box-shadow:0 0 30px rgba(0,200,255,0.4), inset 0 0 20px rgba(0,200,255,0.1);
+  background:rgba(57,255,20,0.15);
+  box-shadow:0 0 30px rgba(57,255,20,0.4),inset 0 0 20px rgba(57,255,20,0.1);
 }
-body.dark .overlay{background:rgba(0,0,20,0.7);}
+body.dark .store-name{color:#e8ffe0;text-shadow:0 0 10px rgba(57,255,20,0.4);}
+body.dark .store-sub{color:rgba(57,255,20,0.6);}
+body.dark .overlay{background:rgba(0,10,0,0.75);}
 body.dark .drawer{
-  background:rgba(2,8,24,0.92);
-  border-left:1px solid rgba(0,200,255,0.3);
+  background:rgba(2,10,2,0.94);
+  border-left:1px solid rgba(57,255,20,0.3);
   backdrop-filter:blur(16px);
-  box-shadow:-4px 0 30px rgba(0,200,255,0.1);
+  box-shadow:-4px 0 30px rgba(57,255,20,0.08);
 }
-body.dark .drawer-title{color:#00c8ff;border-bottom:1px solid rgba(0,200,255,0.2);text-shadow:0 0 8px rgba(0,200,255,0.5);}
-body.dark .mode-row{color:#e0f0ff;}
-body.dark .toggle-track{background:rgba(0,200,255,0.15);border:1px solid rgba(0,200,255,0.3);}
-body.dark .toggle-track.on{background:rgba(0,200,255,0.4);box-shadow:0 0 10px rgba(0,200,255,0.5);}
+body.dark .drawer-title{color:#39FF14;border-bottom:1px solid rgba(57,255,20,0.2);text-shadow:0 0 8px rgba(57,255,20,0.5);}
+body.dark .mode-row{color:#e8ffe0;}
+body.dark .toggle-track{background:rgba(57,255,20,0.15);border:1px solid rgba(57,255,20,0.3);}
+body.dark .toggle-track.on{background:rgba(57,255,20,0.4);box-shadow:0 0 10px rgba(57,255,20,0.5);}
 body.dark .stars{display:block;}
 
-/* Stars bg for dark */
+/* Stars */
 .stars{display:none;position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden;}
 .star{position:absolute;background:#fff;border-radius:50%;animation:twinkle 3s infinite;}
-@keyframes twinkle{0%,100%{opacity:.2;}50%{opacity:.8;}}
+@keyframes twinkle{0%,100%{opacity:.15;}50%{opacity:.7;}}
+.shooting-star{
+  position:absolute;width:130px;height:1.5px;
+  background:linear-gradient(90deg,rgba(57,255,20,1),rgba(200,255,100,0.8),rgba(255,255,200,0));
+  border-radius:999px;
+  animation:shoot 1.2s ease-out forwards;
+  box-shadow:0 0 6px 1px rgba(57,255,20,0.5);
+}
+@keyframes shoot{
+  0%{opacity:0;transform:translate(0,0) rotate(150deg);}
+  10%{opacity:1;}
+  100%{opacity:0;transform:translate(380px,220px) rotate(150deg);}
+}
 
 /* ===== LAYOUT ===== */
 body{display:flex;flex-direction:column;overflow:hidden;}
 
+/* HEADER */
 .header{
-  display:flex;align-items:center;justify-content:space-between;
-  padding:10px 14px;flex-shrink:0;position:relative;z-index:10;
+  display:flex;align-items:center;
+  padding:8px 10px;flex-shrink:0;
+  position:relative;z-index:10;gap:8px;
   transition:background .4s,border-color .4s;
 }
-.logo{text-align:center;flex:1;}
-.logo-name{font-size:1.15rem;font-weight:900;letter-spacing:.1em;display:block;transition:color .4s,text-shadow .4s;}
-.logo-sub{font-size:.6rem;font-weight:700;letter-spacing:.2em;display:block;margin-top:2px;transition:color .4s;}
+.logo-img{height:32px;width:auto;flex-shrink:0;object-fit:contain;}
+.service-badge{
+  flex-shrink:0;
+  padding:4px 10px;border-radius:8px;
+  font-size:.62rem;font-weight:800;
+  letter-spacing:.08em;line-height:1.3;
+  text-align:center;transition:all .4s;
+  white-space:nowrap;
+}
+.service-badge .s1{display:block;font-size:.68rem;}
+.service-badge .s2{display:block;font-size:.58rem;opacity:.85;}
+.spacer{flex:1;}
 .hamburger{
-  width:40px;height:40px;border-radius:8px;
-  font-size:1.2rem;cursor:pointer;
+  width:38px;height:38px;border-radius:8px;
+  font-size:1.1rem;cursor:pointer;flex-shrink:0;
   display:flex;align-items:center;justify-content:center;
   transition:all .3s;
 }
 
+/* MAIN */
 .main-content{
   flex:1;display:flex;flex-direction:column;
   align-items:center;justify-content:center;
   position:relative;z-index:1;padding:20px;
 }
-.logo-area{text-align:center;margin-bottom:44px;}
-.logo-area .name{font-size:2.2rem;font-weight:900;letter-spacing:.15em;display:block;transition:all .4s;}
-.logo-area .sub{font-size:.9rem;font-weight:700;letter-spacing:.25em;display:block;margin-top:8px;transition:all .4s;}
-body.light .logo-area .name{color:#2C1A0E;}
-body.light .logo-area .sub{color:#9C7A4A;}
-body.dark .logo-area .name{color:#e0f0ff;text-shadow:0 0 16px rgba(0,200,255,0.7);}
-body.dark .logo-area .sub{color:rgba(0,200,255,0.8);}
+.store-area{text-align:center;margin-bottom:44px;}
+.store-name{font-size:2rem;font-weight:900;letter-spacing:.15em;display:block;transition:all .4s;}
+.store-sub{font-size:.85rem;font-weight:700;letter-spacing:.25em;display:block;margin-top:6px;transition:all .4s;}
+body.light .store-area .store-name{color:#2C1A0E;}
+body.light .store-area .store-sub{color:#9C7A4A;}
 
-.prompt{font-size:.88rem;text-align:center;line-height:2.1;margin-bottom:32px;letter-spacing:.03em;transition:color .4s;}
+.prompt{font-size:.85rem;text-align:center;line-height:2.1;margin-bottom:32px;transition:color .4s;}
 .btns{display:flex;flex-direction:column;gap:16px;width:280px;}
 .lang-btn{
   display:block;padding:20px 0;border-radius:14px;
-  text-decoration:none;text-align:center;
-  transition:all .25s;
+  text-decoration:none;text-align:center;transition:all .25s;
 }
 .lang-btn .main{display:block;font-size:1.15rem;font-weight:900;letter-spacing:.1em;transition:all .3s;}
 .lang-btn .sub{display:block;font-size:.72rem;font-weight:500;margin-top:4px;letter-spacing:.05em;transition:all .3s;}
 
-/* ===== DRAWER ===== */
+/* DRAWER */
 .overlay{position:fixed;inset:0;z-index:50;opacity:0;pointer-events:none;transition:opacity .3s;}
 .overlay.open{opacity:1;pointer-events:auto;}
 .drawer{
   position:fixed;top:0;right:-280px;width:260px;height:100%;
   z-index:51;padding:24px 20px;
   transition:right .3s cubic-bezier(.4,0,.2,1),background .4s;
-  display:flex;flex-direction:column;gap:0;
 }
 .drawer.open{right:0;}
 .drawer-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;}
 .drawer-title{font-size:1rem;font-weight:900;letter-spacing:.1em;padding-bottom:12px;flex:1;transition:all .4s;}
 .drawer-close{background:none;border:none;font-size:1.4rem;cursor:pointer;color:inherit;padding:0 0 0 8px;}
 .mode-row{display:flex;align-items:center;justify-content:space-between;padding:16px 0;font-size:.9rem;font-weight:700;transition:color .4s;}
-.mode-icon{font-size:1.1rem;margin-right:8px;}
-.toggle-track{
-  width:48px;height:26px;border-radius:13px;
-  cursor:pointer;position:relative;transition:all .3s;
-}
-.toggle-thumb{
-  position:absolute;top:3px;left:3px;width:20px;height:20px;
-  background:#fff;border-radius:50%;transition:left .3s;
-  box-shadow:0 1px 4px rgba(0,0,0,.3);
-}
+.toggle-track{width:48px;height:26px;border-radius:13px;cursor:pointer;position:relative;transition:all .3s;}
+.toggle-thumb{position:absolute;top:3px;left:3px;width:20px;height:20px;background:#fff;border-radius:50%;transition:left .3s;box-shadow:0 1px 4px rgba(0,0,0,.3);}
 .toggle-track.on .toggle-thumb{left:25px;}
 </style>
 </head>
 <body class="light">
 
-<!-- Stars (dark mode only) -->
 <div class="stars" id="stars"></div>
 
 <!-- HEADER -->
 <div class="header">
-  <div style="width:40px"></div>
-  <div class="logo">
-    <span class="logo-name">海老天丼 こし</span>
-    <span class="logo-sub">TENDON KOSHI</span>
+  <img class="logo-img" src="logo-yoko.png" alt="LuminaLink AI">
+  <div class="service-badge">
+    <span class="s1">MultiLang</span>
+    <span class="s2">Menu</span>
   </div>
+  <div class="spacer"></div>
   <button class="hamburger" onclick="openDrawer()">☰</button>
 </div>
 
-<!-- MAIN CONTENT -->
+<!-- MAIN -->
 <div class="main-content">
-  <div class="logo-area">
-    <span class="name">海老天丼 こし</span>
-    <span class="sub">TENDON KOSHI</span>
+  <div class="store-area">
+    <span class="store-name">海老天丼 こし</span>
+    <span class="store-sub">TENDON KOSHI</span>
   </div>
   <div class="prompt">
     言語を選択してください<br>
@@ -175,17 +202,15 @@ body.dark .logo-area .sub{color:rgba(0,200,255,0.8);}
   </div>
 </div>
 
-<!-- OVERLAY -->
+<!-- OVERLAY & DRAWER -->
 <div class="overlay" id="overlay" onclick="closeDrawer()"></div>
-
-<!-- DRAWER -->
 <div class="drawer" id="drawer">
   <div class="drawer-header">
     <div class="drawer-title">MENU</div>
     <button class="drawer-close" onclick="closeDrawer()">✕</button>
   </div>
   <div class="mode-row">
-    <span><span class="mode-icon" id="mode-icon">☀️</span><span id="mode-label">ライトモード</span></span>
+    <span><span id="mode-icon">☀️</span> <span id="mode-label">ライトモード</span></span>
     <div class="toggle-track" id="toggle" onclick="toggleMode()">
       <div class="toggle-thumb"></div>
     </div>
@@ -193,48 +218,42 @@ body.dark .logo-area .sub{color:rgba(0,200,255,0.8);}
 </div>
 
 <script>
-var isDark = false;
-
-function openDrawer(){
-  document.getElementById('drawer').classList.add('open');
-  document.getElementById('overlay').classList.add('open');
-}
-function closeDrawer(){
-  document.getElementById('drawer').classList.remove('open');
-  document.getElementById('overlay').classList.remove('open');
-}
+var isDark=false;
+function openDrawer(){document.getElementById('drawer').classList.add('open');document.getElementById('overlay').classList.add('open');}
+function closeDrawer(){document.getElementById('drawer').classList.remove('open');document.getElementById('overlay').classList.remove('open');}
 
 function toggleMode(){
-  isDark = !isDark;
-  var body = document.body;
-  var toggle = document.getElementById('toggle');
-  var icon = document.getElementById('mode-icon');
-  var label = document.getElementById('mode-label');
-  if(isDark){
-    body.className = 'dark';
-    toggle.classList.add('on');
-    icon.textContent = '🌙';
-    label.textContent = 'ダークモード';
-    buildStars();
-  } else {
-    body.className = 'light';
-    toggle.classList.remove('on');
-    icon.textContent = '☀️';
-    label.textContent = 'ライトモード';
-    document.getElementById('stars').innerHTML = '';
-  }
+  isDark=!isDark;
+  var toggle=document.getElementById('toggle');
+  document.body.className=isDark?'dark':'light';
+  toggle.classList.toggle('on',isDark);
+  document.getElementById('mode-icon').textContent=isDark?'🌙':'☀️';
+  document.getElementById('mode-label').textContent=isDark?'ダークモード':'ライトモード';
+  if(isDark){buildStars();scheduleShootingStar();}
+  else{document.getElementById('stars').innerHTML='';}
 }
 
 function buildStars(){
-  var c = document.getElementById('stars');
-  c.innerHTML = '';
+  var c=document.getElementById('stars');c.innerHTML='';
   for(var i=0;i<80;i++){
-    var s = document.createElement('div');
-    s.className = 'star';
-    var size = Math.random()*2+1;
-    s.style.cssText = 'width:'+size+'px;height:'+size+'px;top:'+Math.random()*100+'%;left:'+Math.random()*100+'%;animation-delay:'+Math.random()*3+'s;animation-duration:'+(2+Math.random()*3)+'s;opacity:'+(0.2+Math.random()*0.6)+';';
+    var s=document.createElement('div');s.className='star';
+    var sz=Math.random()*2+1;
+    s.style.cssText='width:'+sz+'px;height:'+sz+'px;top:'+Math.random()*100+'%;left:'+Math.random()*100+'%;animation-delay:'+Math.random()*3+'s;animation-duration:'+(2+Math.random()*3)+'s;';
     c.appendChild(s);
   }
+}
+function createShootingStar(){
+  if(!isDark)return;
+  var c=document.getElementById('stars');
+  var el=document.createElement('div');el.className='shooting-star';
+  el.style.top=(5+Math.random()*40)+'%';
+  el.style.left=(5+Math.random()*40)+'%';
+  c.appendChild(el);
+  setTimeout(function(){if(el.parentNode)el.parentNode.removeChild(el);},1400);
+}
+function scheduleShootingStar(){
+  if(!isDark)return;
+  setTimeout(function(){createShootingStar();scheduleShootingStar();},(3000+Math.random()*7000));
 }
 </script>
 </body>
